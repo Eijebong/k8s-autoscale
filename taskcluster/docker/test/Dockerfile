@@ -1,5 +1,7 @@
+FROM ghcr.io/astral-sh/uv:bookworm-slim
+
 ARG PYTHON_VERSION
-FROM python:$PYTHON_VERSION
+RUN uv python install $PYTHON_VERSION
 
 # Add worker user
 RUN mkdir /builds && \
@@ -7,8 +9,6 @@ RUN mkdir /builds && \
     useradd -d /builds/worker -s /bin/bash -m worker -g 1000 -o -u 1000 && \
     mkdir /builds/worker/artifacts && \
     chown worker:worker /builds/worker/artifacts
-
-RUN pip install tox
 
 # %include-run-task
 
